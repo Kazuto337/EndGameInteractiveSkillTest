@@ -96,7 +96,7 @@ public class PlayerBehaviour : MonoBehaviour
         UseMedKit();
     }
 
-    private void OpenDoor()
+    private void OpenDoor(DoorBehavior door)
     {
         int emptySlots = 0;
         foreach (var item in keys)
@@ -117,6 +117,15 @@ public class PlayerBehaviour : MonoBehaviour
         {
             return;
         }
+
+        for (int i = 0; i < keys.Length; i++)
+        {
+            if (keys[i] != null)
+            {
+                keys[i] = null;
+            }
+        }
+        door.OpenDoor();
     }
 
     private void ReloadWeapon()
@@ -253,7 +262,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (other.CompareTag("DoorInteractable"))
         {
-
+            OpenDoor(other.GetComponent<DoorBehavior>());
         }
     }
 }
