@@ -23,6 +23,11 @@ public class WeaponBehavior : MonoBehaviour
     {
         ResetWeapon();
     }
+    private void Update()
+    {
+        Debug.DrawRay(bulletSpawnPoint.position, bulletSpawnPoint.forward * 1000 , Color.blue);
+    }
+
     public void ReloadWeapon()
     {
         if (ammo == 0)
@@ -32,6 +37,18 @@ public class WeaponBehavior : MonoBehaviour
 
         isLoading = true;
         StartCoroutine(ReloadBehavior());
+    }
+    private Vector3 SetBulletDirection()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(bulletSpawnPoint.position , bulletSpawnPoint.forward * 1000, out hit))
+        {
+            Debug.DrawRay(bulletSpawnPoint.position, bulletSpawnPoint.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            Debug.Log(hit.collider.name);
+            return hit.point;
+        }
+
+        return hit.point;
     }
 
     private IEnumerator ReloadBehavior()
@@ -74,6 +91,7 @@ public class WeaponBehavior : MonoBehaviour
             if (bullet.gameObject.activeInHierarchy == false)
             {
                 bullet.GetComponent<Transform>().position = bulletSpawnPoint.position;
+                bullet.GetComponent<Transform>().forward = SetBulletDirection().normalized;
 
                 bullet.Fire();
                 break;

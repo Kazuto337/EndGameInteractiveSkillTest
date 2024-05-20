@@ -21,7 +21,7 @@ public class BulletBehavior : MonoBehaviour
     private void Move()
     {
         if (!gameObject.activeInHierarchy) return;
-        Vector3 movement = Vector3.forward * speed;
+        Vector3 movement = transform.forward * speed;
 
         characterController.Move(movement);
     }
