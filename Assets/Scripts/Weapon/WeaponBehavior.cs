@@ -20,6 +20,7 @@ public class WeaponBehavior : MonoBehaviour
     public int Ammo { get => ammo;}
     public bool IsLoading { get => isLoading;}
     public bool IsShooting { get => isShooting;}
+    public int MaxAmmo { get => maxAmmo;}
 
     private void Start()
     {

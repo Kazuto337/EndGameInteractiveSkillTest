@@ -53,6 +53,24 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MedKit"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc409049-5cd2-405a-bbed-ab6fc1ff36db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""b3fd5755-d06d-46e2-8be3-0570408f5bab"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -165,6 +183,50 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c3fc6c4-6d4c-44a0-970e-6f54a1245fb1"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MedKit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7f9d58c-0f45-4bdf-93ca-8c5525580a78"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MedKit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c71f8c7-14d4-4807-bcff-cc381374b4ab"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""936f548c-a7f6-492c-9a13-50aa3487d568"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -176,6 +238,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMain_Move = m_PlayerMain.FindAction("Move", throwIfNotFound: true);
         m_PlayerMain_Fire = m_PlayerMain.FindAction("Fire", throwIfNotFound: true);
         m_PlayerMain_Reload = m_PlayerMain.FindAction("Reload", throwIfNotFound: true);
+        m_PlayerMain_MedKit = m_PlayerMain.FindAction("MedKit", throwIfNotFound: true);
+        m_PlayerMain_Interact = m_PlayerMain.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,6 +304,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMain_Move;
     private readonly InputAction m_PlayerMain_Fire;
     private readonly InputAction m_PlayerMain_Reload;
+    private readonly InputAction m_PlayerMain_MedKit;
+    private readonly InputAction m_PlayerMain_Interact;
     public struct PlayerMainActions
     {
         private @PlayerActions m_Wrapper;
@@ -247,6 +313,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerMain_Move;
         public InputAction @Fire => m_Wrapper.m_PlayerMain_Fire;
         public InputAction @Reload => m_Wrapper.m_PlayerMain_Reload;
+        public InputAction @MedKit => m_Wrapper.m_PlayerMain_MedKit;
+        public InputAction @Interact => m_Wrapper.m_PlayerMain_Interact;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -265,6 +333,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @MedKit.started += instance.OnMedKit;
+            @MedKit.performed += instance.OnMedKit;
+            @MedKit.canceled += instance.OnMedKit;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IPlayerMainActions instance)
@@ -278,6 +352,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @MedKit.started -= instance.OnMedKit;
+            @MedKit.performed -= instance.OnMedKit;
+            @MedKit.canceled -= instance.OnMedKit;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IPlayerMainActions instance)
@@ -300,5 +380,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnMedKit(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

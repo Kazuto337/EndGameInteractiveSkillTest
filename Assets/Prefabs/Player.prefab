@@ -2695,6 +2695,16 @@ MonoBehaviour:
   playerSpeed: 2
   gravityValue: -9.81
   weapon: {fileID: 7560280725091297029}
+  medKits:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  keys:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &7415393298084789862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,7 +3375,7 @@ MonoBehaviour:
   ammo: 0
   ammoOnStack: 0
   reloadTime: 1.5
-  fireRate: 0.66
+  fireRate: 0.25
   bulletsPool: []
   bulletSpawnPoint: {fileID: 719403354203565887}
 --- !u!1 &8727600779320981287

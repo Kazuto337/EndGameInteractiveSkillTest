@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerActions playerInput;
+    [Header("Stats")]
+    [SerializeField] private float healthPoints;
+    [SerializeField] private float maxHealthPoints;
 
     [Header("Movement Attributes")]
     private CharacterController controller;
@@ -17,13 +21,18 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Animation Properties")]
     private bool isMoving;
     private bool isShooting;
+    private bool isHealing;
     private Animator animator;
 
     [Header("Inventory Attributes")]
     [SerializeField] WeaponBehavior weapon;
+    [SerializeField] CollectableBehaviour[] medKits = new CollectableBehaviour[4];
+    [SerializeField] CollectableBehaviour[] keys = new CollectableBehaviour[3];
 
     private void Awake()
     {
+        healthPoints = maxHealthPoints;
+
         playerInput = new PlayerActions();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -60,7 +69,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Shoot()
     {
-        if(weapon.Ammo == 0 || weapon.IsLoading)
+        if (weapon.Ammo == 0 || weapon.IsLoading)
         {
             isShooting = false;
             return;
@@ -83,6 +92,98 @@ public class PlayerBehaviour : MonoBehaviour
         Move();
         Shoot();
         SetAnimationStates();
+        ReloadWeapon();
+        UseMedKit();
+    }
+
+    private void OpenDoor()
+    {
+        int emptySlots = 0;
+        foreach (var item in keys)
+        {
+            if (item == null)
+            {
+                emptySlots++;
+            }
+        }
+
+        if (emptySlots == keys.Length)
+        {
+            Debug.LogWarning("You don't have a key to open this door!");
+            return;
+        }
+
+        if (playerInput.PlayerMain.Interact.ReadValue<float>() < 1)
+        {
+            return;
+        }
+    }
+
+    private void ReloadWeapon()
+    {
+        if (playerInput.PlayerMain.Reload.ReadValue<float>() > 0)
+        {
+            weapon.ReloadWeapon();
+        }
+    }
+
+    private void UseMedKit()
+    {
+        int nullSpaces = 0;
+        int kits = 0;
+
+
+        for (int i = 0; i < medKits.Length; i++)
+        {
+            if (medKits[i] != null)
+            {
+                kits++;
+            }
+            else
+            {
+                nullSpaces++;
+            }
+        }
+        bool conditionA = nullSpaces == medKits.Length;
+        bool conditionB = healthPoints == maxHealthPoints;
+
+        if (conditionA || conditionB || isHealing)
+        {
+            return;
+        }
+
+        if (playerInput.PlayerMain.MedKit.ReadValue<float>() < 1)
+        {
+            return;
+        }
+
+        isHealing = true;
+        StartCoroutine(HealingBehavior());
+    }
+
+    private IEnumerator HealingBehavior()
+    {
+        for (int i = 0; i < medKits.Length; i++)
+        {
+            if (medKits[i] != null)
+            {
+                medKits[i] = null;
+                break;
+            }
+        }
+
+        float medKitValue = 30f;
+        if (medKitValue + healthPoints > maxHealthPoints)
+        {
+            healthPoints = maxHealthPoints;
+            yield break;
+        }
+
+        healthPoints += medKitValue;
+
+        yield return new WaitForSeconds(1f);
+
+        isHealing = false;
     }
 
     private void SetAnimationStates()
@@ -90,9 +191,10 @@ public class PlayerBehaviour : MonoBehaviour
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isShooting", isShooting);
     }
-    
+
     private void OnAmmoFound()
     {
+        Debug.LogWarning("Ammo Found");
         weapon.NewAmmo();
     }
 
@@ -103,10 +205,55 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Weapon"))
+        if (other.CompareTag("Collectable"))
         {
-            OnAmmoFound();
-            other.gameObject.SetActive(false);
+            CollectableBehaviour collectable = other.GetComponent<CollectableBehaviour>();
+
+            switch (collectable.Type)
+            {
+                case CollectableType.ammo:
+                    if (weapon.Ammo == weapon.MaxAmmo)
+                    {
+                        break;
+                    }
+                    OnAmmoFound();
+                    other.gameObject.SetActive(false);
+
+                    break;
+
+                case CollectableType.medKit:
+
+                    for (int i = 0; i < medKits.Length; i++)
+                    {
+                        if (medKits[i] == null)
+                        {
+                            medKits[i] = other.GetComponent<CollectableBehaviour>();
+                            other.gameObject.SetActive(false);
+                            break;
+                        }
+                    }
+                    break;
+
+                case CollectableType.key:
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        if (keys[i] == null)
+                        {
+                            keys[i] = other.GetComponent<CollectableBehaviour>();
+                            other.gameObject.SetActive(false);
+                            break;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (other.CompareTag("DoorInteractable"))
+        {
+
         }
     }
 }
