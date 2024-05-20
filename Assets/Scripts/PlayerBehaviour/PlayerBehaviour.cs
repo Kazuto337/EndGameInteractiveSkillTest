@@ -7,7 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
 {
     private PlayerActions playerInput;
 
-    [Header("Movement Properties")]
+    [Header("Movement Attributes")]
     private CharacterController controller;
     private Vector3 verticalVelocity;
     private bool isGrounded;
@@ -18,6 +18,9 @@ public class PlayerBehaviour : MonoBehaviour
     private bool isMoving;
     private bool isShooting;
     private Animator animator;
+
+    [Header("Inventory Attributes")]
+    [SerializeField] WeaponBehavior weapon;
 
     private void Awake()
     {
@@ -57,13 +60,17 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Shoot()
     {
+        if(weapon.Ammo == 0)
+        {
+            return;
+        }
+
         bool isButtonPress = playerInput.PlayerMain.Fire.ReadValue<float>() > 0;
 
         if (isButtonPress)
         {
-            Debug.Log("Fire!");
-             isShooting = true;
-
+            isShooting = true;
+            weapon.FireWeapon();
             return;
         }
 
@@ -82,9 +89,23 @@ public class PlayerBehaviour : MonoBehaviour
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isShooting", isShooting);
     }
+    
+    private void OnAmmoFound()
+    {
+        weapon.NewAmmo();
+    }
 
     private void OnDisable()
     {
         playerInput.Disable();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Weapon"))
+        {
+            OnAmmoFound();
+            other.gameObject.SetActive(false);
+        }
     }
 }
