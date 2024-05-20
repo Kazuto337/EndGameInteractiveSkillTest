@@ -7,6 +7,7 @@ public class BulletBehavior : MonoBehaviour
 {
     CharacterController characterController;
     [SerializeField] float speed;
+    bool canMove = true;
 
     private void Start()
     {
@@ -15,7 +16,10 @@ public class BulletBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (canMove)
+        {
+            Move(); 
+        }
     }
 
     private void Move()
@@ -33,6 +37,7 @@ public class BulletBehavior : MonoBehaviour
 
     private void Explode()
     {
+        canMove = false;
         Debug.Log(name + "Explode");
         StartCoroutine(TurnOff());
     }
@@ -41,10 +46,18 @@ public class BulletBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
+        canMove = true;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Explode();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Boundary"))
+        {
+            Explode();
+        }
     }
 }

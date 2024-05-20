@@ -1330,7 +1330,7 @@ Transform:
   m_GameObject: {fileID: 3739669437729388789}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.137, y: 0.717, z: 1.031}
+  m_LocalPosition: {x: 0.198, y: 0.834, z: 0.826}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3365,7 +3365,7 @@ MonoBehaviour:
   ammo: 0
   ammoOnStack: 0
   reloadTime: 1.5
-  fireRate: 0.33
+  fireRate: 0.66
   bulletsPool: []
   bulletSpawnPoint: {fileID: 719403354203565887}
 --- !u!1 &8727600779320981287

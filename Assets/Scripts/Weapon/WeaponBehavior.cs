@@ -18,6 +18,8 @@ public class WeaponBehavior : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPoint;
 
     public int Ammo { get => ammo;}
+    public bool IsLoading { get => isLoading;}
+    public bool IsShooting { get => isShooting;}
 
     private void Start()
     {
@@ -38,25 +40,13 @@ public class WeaponBehavior : MonoBehaviour
         isLoading = true;
         StartCoroutine(ReloadBehavior());
     }
-    private Vector3 SetBulletDirection()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(bulletSpawnPoint.position , bulletSpawnPoint.forward * 1000, out hit))
-        {
-            Debug.DrawRay(bulletSpawnPoint.position, bulletSpawnPoint.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-            Debug.Log(hit.collider.name);
-            return hit.point;
-        }
-
-        return hit.point;
-    }
 
     private IEnumerator ReloadBehavior()
     {
         yield return new WaitForSeconds(reloadTime);
 
         int ammoDifference = stack - ammoOnStack;
-        ammo = ammoDifference;
+        ammo -= ammoDifference;
 
         //If ammo is minor than the stack value, then put the leftover in the charger
         ammoOnStack = ammo > stack ? stack : ammo;
@@ -91,14 +81,13 @@ public class WeaponBehavior : MonoBehaviour
             if (bullet.gameObject.activeInHierarchy == false)
             {
                 bullet.GetComponent<Transform>().position = bulletSpawnPoint.position;
-                bullet.GetComponent<Transform>().forward = SetBulletDirection().normalized;
+                bullet.GetComponent<Transform>().forward = bulletSpawnPoint.forward;
 
                 bullet.Fire();
                 break;
             }
         }
 
-        ammo --;
         ammoOnStack --;
 
         if (ammoOnStack == 0)

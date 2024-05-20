@@ -60,8 +60,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Shoot()
     {
-        if(weapon.Ammo == 0)
+        if(weapon.Ammo == 0 || weapon.IsLoading)
         {
+            isShooting = false;
             return;
         }
 
