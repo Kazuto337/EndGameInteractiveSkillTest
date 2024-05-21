@@ -10,6 +10,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float healthPoints;
     [SerializeField] private float maxHealthPoints;
+    private bool isHealing;
 
     [Header("Movement Attributes")]
     private CharacterController controller;
@@ -21,7 +22,6 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Animation Properties")]
     private bool isMoving;
     private bool isShooting;
-    private bool isHealing;
     private Animator animator;
 
     [Header("Inventory Attributes")]
