@@ -175,6 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4391585638204831463}
+  - component: {fileID: 2657601920321557123}
   m_Layer: 0
   m_Name: house_001
   m_TagString: Untagged
@@ -204,6 +205,19 @@ Transform:
   - {fileID: 5029369999099999669}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &2657601920321557123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4023553503973384583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfbf38d7848e9c449cf1bb3a38d118e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roof: {fileID: 6059604558755518779}
 --- !u!1 &5689794053300335947
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,9 +568,10 @@ GameObject:
   - component: {fileID: 7722500583273944888}
   - component: {fileID: 5938816240680101949}
   - component: {fileID: 7582460730292610644}
+  - component: {fileID: 8123819478623154970}
   m_Layer: 0
   m_Name: house_roof_001
-  m_TagString: Untagged
+  m_TagString: Roof
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -626,6 +641,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8123819478623154970
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595623517312336358}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.8162947, y: 3.7683556, z: 7.22157}
+  m_Center: {x: 0, y: 4.2831097, z: 0.12098423}
 --- !u!1001 &1274963461154822094
 PrefabInstance:
   m_ObjectHideFlags: 0

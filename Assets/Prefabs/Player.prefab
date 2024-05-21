@@ -2610,7 +2610,7 @@ GameObject:
   - component: {fileID: 7644464463989730255}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2692,6 +2692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c857f10cc7161e34c80d462055ff7d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthPoints: 0
+  maxHealthPoints: 150
   playerSpeed: 2
   gravityValue: -9.81
   weapon: {fileID: 7560280725091297029}

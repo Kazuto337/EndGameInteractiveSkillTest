@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class HouseBehavior : MonoBehaviour
 {
-    [SerializeField] GameObject roof;
-
     public void TurnOffRoof()
     {
-        roof.SetActive(false);
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
     public void TurnOnRoof()
     {
-        roof.SetActive(true);
+        gameObject.GetComponent<MeshRenderer>().enabled = true;
     }
 }
