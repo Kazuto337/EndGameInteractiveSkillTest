@@ -98,6 +98,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OpenDoor(DoorBehavior door)
     {
+        if (playerInput.PlayerMain.Interact.ReadValue<float>() < 1)
+        {
+            return;
+        }
+
         int emptySlots = 0;
         foreach (var item in keys)
         {
@@ -110,11 +115,6 @@ public class PlayerBehaviour : MonoBehaviour
         if (emptySlots == keys.Length)
         {
             Debug.LogWarning("You don't have a key to open this door!");
-            return;
-        }
-
-        if (playerInput.PlayerMain.Interact.ReadValue<float>() < 1)
-        {
             return;
         }
 
@@ -258,10 +258,14 @@ public class PlayerBehaviour : MonoBehaviour
                 default:
                     break;
             }
-        }
+        }        
+    }
 
+    private void OnTriggerStay(Collider other)
+    {
         if (other.CompareTag("DoorInteractable"))
         {
+            Debug.LogWarning("Door Found.");
             OpenDoor(other.GetComponent<DoorBehavior>());
         }
     }
