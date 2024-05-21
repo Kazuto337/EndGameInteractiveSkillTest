@@ -10,8 +10,8 @@ public enum CollectableType
 }
 public class CollectableBehaviour : MonoBehaviour
 {
-    [SerializeField] float amplitude , speed;
-    [SerializeField] float rotationSpeed;
+    float amplitude = 0.05f, speed = 3f;
+    float rotationSpeed = 45;
     [SerializeField] CollectableType type;
 
     public CollectableType Type { get => type;}
