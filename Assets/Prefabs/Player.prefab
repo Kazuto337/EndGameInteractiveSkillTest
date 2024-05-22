@@ -2707,6 +2707,24 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  OnHPChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAmmoChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMedKitFound:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMedKitUsed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKeyFound:
+    m_PersistentCalls:
+      m_Calls: []
+  OnKeyUsed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7415393298084789862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3380,6 +3398,21 @@ MonoBehaviour:
   fireRate: 0.25
   bulletsPool: []
   bulletSpawnPoint: {fileID: 719403354203565887}
+  UpdateAmmo:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7644464463989730255}
+        m_TargetAssemblyTypeName: PlayerBehaviour, Assembly-CSharp
+        m_MethodName: UpdateAmmo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8727600779320981287
 GameObject:
   m_ObjectHideFlags: 0

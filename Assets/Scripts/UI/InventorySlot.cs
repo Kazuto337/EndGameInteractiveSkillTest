@@ -17,8 +17,18 @@ public class InventorySlot : MonoBehaviour
         group = GetComponent<CanvasGroup>();
     }
 
+    private void Start()
+    {
+        UpdateQuantityText();
+    }
+
     private void Update()
     {
+        if (quantitySticker == null)
+        {
+            return;
+        }
+
         switch(isEmpty)
         {
             case true:
@@ -41,7 +51,7 @@ public class InventorySlot : MonoBehaviour
     public void RemoveElement()
     {
         if (quantityTxt == null) return;
-        quantityValue++;
+        quantityValue--;
         UpdateQuantityText();
     }
 
@@ -49,6 +59,14 @@ public class InventorySlot : MonoBehaviour
     {
         if (quantityTxt == null) return;
         quantityTxt.text = quantityValue.ToString();
+
+        if (quantityValue == 0)
+        {
+            isEmpty = true;
+            return;
+        }
+
+        isEmpty = false;
     }
 
 }

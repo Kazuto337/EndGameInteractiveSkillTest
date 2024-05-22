@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -29,6 +30,14 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] CollectableBehaviour[] medKits = new CollectableBehaviour[4];
     [SerializeField] CollectableBehaviour[] keys = new CollectableBehaviour[3];
 
+    [Header("UI Events")]
+    public UnityEvent<float> OnHPChanged;
+    public UnityEvent<int, int> OnAmmoChanged;
+    public UnityEvent OnMedKitFound;
+    public UnityEvent OnMedKitUsed;
+    public UnityEvent OnKeyFound;
+    public UnityEvent OnKeyUsed;
+
     private void Awake()
     {
         healthPoints = maxHealthPoints;
@@ -43,6 +52,18 @@ public class PlayerBehaviour : MonoBehaviour
         playerInput.Enable();
     }
 
+    private void Start()
+    {
+        OnAmmoChanged.Invoke(weapon.AmmoOnStack, weapon.Ammo);
+    }
+    private void Update()
+    {
+        Move();
+        Shoot();
+        SetAnimationStates();
+        ReloadWeapon();
+        UseMedKit();
+    }
     private void Move()
     {
         isGrounded = controller.isGrounded;
@@ -67,6 +88,11 @@ public class PlayerBehaviour : MonoBehaviour
         controller.Move(verticalVelocity * Time.deltaTime);
     }
 
+    public void UpdateAmmo()
+    {
+        OnAmmoChanged.Invoke(weapon.AmmoOnStack, weapon.Ammo);
+    }
+
     private void Shoot()
     {
         if (weapon.Ammo == 0 || weapon.IsLoading)
@@ -86,16 +112,13 @@ public class PlayerBehaviour : MonoBehaviour
 
         isShooting = false;
     }
-
-    private void Update()
+    private void ReloadWeapon()
     {
-        Move();
-        Shoot();
-        SetAnimationStates();
-        ReloadWeapon();
-        UseMedKit();
+        if (playerInput.PlayerMain.Reload.ReadValue<float>() > 0)
+        {
+            weapon.ReloadWeapon();
+        }
     }
-
     private void OpenDoor(DoorBehavior door)
     {
         if (playerInput.PlayerMain.Interact.ReadValue<float>() < 1)
@@ -126,16 +149,8 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         door.OpenDoor();
+        OnKeyUsed.Invoke();
     }
-
-    private void ReloadWeapon()
-    {
-        if (playerInput.PlayerMain.Reload.ReadValue<float>() > 0)
-        {
-            weapon.ReloadWeapon();
-        }
-    }
-
     private void UseMedKit()
     {
         int nullSpaces = 0;
@@ -168,6 +183,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         isHealing = true;
         StartCoroutine(HealingBehavior());
+        OnMedKitUsed.Invoke();
     }
 
     private IEnumerator HealingBehavior()
@@ -205,6 +221,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Debug.LogWarning("Ammo Found");
         weapon.NewAmmo();
+
+        OnAmmoChanged.Invoke(weapon.AmmoOnStack, weapon.Ammo);
     }
 
     private void OnDisable()
@@ -238,6 +256,8 @@ public class PlayerBehaviour : MonoBehaviour
                         {
                             medKits[i] = other.GetComponent<CollectableBehaviour>();
                             other.gameObject.SetActive(false);
+
+                            OnMedKitFound.Invoke();
                             break;
                         }
                     }
@@ -250,6 +270,7 @@ public class PlayerBehaviour : MonoBehaviour
                         {
                             keys[i] = other.GetComponent<CollectableBehaviour>();
                             other.gameObject.SetActive(false);
+                            OnKeyFound.Invoke();
                             break;
                         }
                     }
@@ -258,7 +279,7 @@ public class PlayerBehaviour : MonoBehaviour
                 default:
                     break;
             }
-        }        
+        }
     }
 
     private void OnTriggerStay(Collider other)
