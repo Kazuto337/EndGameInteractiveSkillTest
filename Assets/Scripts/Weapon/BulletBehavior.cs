@@ -39,7 +39,7 @@ public class BulletBehavior : MonoBehaviour
     private void Explode()
     {
         canMove = false;
-        Debug.Log(name + "Explode");
+        gameObject.GetComponent<Collider>().enabled = false;
         StartCoroutine(TurnOff());
     }
 
@@ -47,12 +47,17 @@ public class BulletBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         gameObject.SetActive(false);
+        gameObject.GetComponent<Collider>().enabled = true;
         canMove = true;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Explode();
+        if (hit.collider.CompareTag("Player"))
+        {
+            hit.collider.gameObject.GetComponent<Character>().ReceiveDamage(bulletDamage);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -60,8 +65,10 @@ public class BulletBehavior : MonoBehaviour
         {
             Explode();
         }
-        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
+            Debug.Log("Hit " + other.name);
+            Explode();
             other.GetComponent<Character>().ReceiveDamage(bulletDamage);
         }
     }

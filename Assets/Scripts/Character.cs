@@ -11,5 +11,6 @@ public class Character : MonoBehaviour
     public void ReceiveDamage(float damageValue)
     {
         healthPoints -= damageValue;
+        Debug.LogWarning(gameObject.name + "Received Damage. Current HP = " + healthPoints);
     }
 }

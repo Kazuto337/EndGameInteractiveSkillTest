@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using static UnityEngine.UI.Image;
 
 public class EnemyBehavior : Character
 {
@@ -14,6 +15,7 @@ public class EnemyBehavior : Character
     [Header("Movement Attributes")]
     [SerializeField] int detectionRadius;
     [SerializeField] bool playerFound;
+    [SerializeField] LayerMask sphereMask;
     EnemyPathCreation pathCreation;
     NavMeshAgent agent;
 
@@ -54,21 +56,24 @@ public class EnemyBehavior : Character
     }
     private void PlayerDetector()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
-        Transform player = null;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, sphereMask);
+        Vector3 player = Vector3.zero;
 
         foreach (var item in colliders)
         {
             if (item.CompareTag("Player"))
             {
-                player = item.transform;
+                Vector3 directionToPlayer = (item.transform.position - transform.position);
+
+                player = RaycastGenerator.Instance.GenerateRaycast(transform.position, directionToPlayer , Mathf.Infinity, "Player");
+                break;
             }
         }
 
-        if (player != null)
+        if (player != Vector3.zero)
         {
             transform.LookAt(player);
-            Move(player.position);
+            Move(player);
             playerFound = true;
             return;
         }

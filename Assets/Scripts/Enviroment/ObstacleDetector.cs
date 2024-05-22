@@ -47,7 +47,6 @@ public class ObstacleDetector : MonoBehaviour
                 default:
                     break;
             }
-            Debug.Log("Hit object: " + hit.collider.name);
         }
         else
         {

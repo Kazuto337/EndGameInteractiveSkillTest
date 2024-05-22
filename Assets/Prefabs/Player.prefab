@@ -2695,7 +2695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPoints: 0
   maxHealthPoints: 150
-  playerSpeed: 2
+  playerSpeed: 4
   gravityValue: -9.81
   weapon: {fileID: 7560280725091297029}
   medKits:
@@ -2727,7 +2727,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.44
+  m_Radius: 0.35
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
