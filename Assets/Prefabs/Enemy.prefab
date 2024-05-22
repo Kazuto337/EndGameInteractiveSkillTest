@@ -2577,6 +2577,7 @@ GameObject:
   - component: {fileID: 6011137541620474489}
   - component: {fileID: 6299769271264510887}
   - component: {fileID: 4724000737214081414}
+  - component: {fileID: -3292607980726283766}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2686,6 +2687,29 @@ MonoBehaviour:
   detectionRadius: 8
   playerFound: 0
   weapon: {fileID: 3654546907998772315}
+--- !u!136 &-3292607980726283766
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155454735863721329}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.44
+  m_Height: 1.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &6178592357199949550
 GameObject:
   m_ObjectHideFlags: 0

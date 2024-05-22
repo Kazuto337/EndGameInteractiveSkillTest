@@ -4,12 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-public class EnemyBehavior : MonoBehaviour
+public class EnemyBehavior : Character
 {
-    [Header("Stats")]
-    [SerializeField] private float healthPoints;
-    [SerializeField] private float maxHealthPoints;
-
     [Header("Animation Properties")]
     private bool isMoving;
     private bool isShooting;
@@ -108,5 +104,4 @@ public class EnemyBehavior : MonoBehaviour
         weapon.FireWeapon();
         return;
     }
-
 }

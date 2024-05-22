@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class BulletBehavior : MonoBehaviour
 {
+    [SerializeField] float bulletDamage;
     CharacterController characterController;
     [SerializeField] float speed;
     bool canMove = true;
@@ -58,6 +59,10 @@ public class BulletBehavior : MonoBehaviour
         if (other.CompareTag("Boundary"))
         {
             Explode();
+        }
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
+        {
+            other.GetComponent<Character>().ReceiveDamage(bulletDamage);
         }
     }
 }

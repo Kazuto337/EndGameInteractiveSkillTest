@@ -4,12 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : Character
 {
     private PlayerActions playerInput;
-    [Header("Stats")]
-    [SerializeField] private float healthPoints;
-    [SerializeField] private float maxHealthPoints;
     private bool isHealing;
 
     [Header("Movement Attributes")]
