@@ -8,6 +8,7 @@ TagManager:
   - Collectable
   - DoorInteractable
   - Roof
+  - Floor
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class EnemyBehavior : MonoBehaviour
 
     [Header("Movement Attributes")]
     [SerializeField] int detectionRadius;
+    [SerializeField] bool playerFound;
     EnemyPathCreation pathCreation;
     NavMeshAgent agent;
 
@@ -32,36 +34,55 @@ public class EnemyBehavior : MonoBehaviour
     private void Update()
     {
         PlayerDetector();
-    }
 
+        if (playerFound)
+        {
+            isShooting = true;
+            Shoot();
+        }
+        else isShooting = false;
+
+        if (agent.remainingDistance > agent.stoppingDistance)
+        {
+            isMoving = true;
+        }
+        else isMoving = false;
+
+        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isShooting", isShooting);
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
     private void PlayerDetector()
     {
-        RaycastHit hit;
-        if (Physics.SphereCast(transform.position, detectionRadius, transform.forward, out hit))
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
+        Transform player = null;
+
+        foreach (var item in colliders)
         {
-            if (hit.collider.CompareTag("Player"))
+            if (item.CompareTag("Player"))
             {
-                Debug.LogWarning("Player detected by " + gameObject.name);
-                Move(hit.point);
-                return;
+                player = item.transform;
             }
         }
 
+        if (player != null)
+        {
+            transform.LookAt(player);
+            Move(player.position);
+            playerFound = true;
+            return;
+        }
+
+        playerFound = false;
         StartCoroutine(SetRandomDestination());
     }
-
-    // Gizmo for scene view visualization
-    void OnDrawGizmos()
-    {
-        // Visualization in the Scene view for debugging
-        Debug.DrawLine(transform.position, transform.position + transform.forward * detectionRadius, Color.red);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * detectionRadius, detectionRadius);
-    }
-
     private IEnumerator SetRandomDestination()
     {
-        if (agent.remainingDistance > agent.stoppingDistance)
+        if (agent.remainingDistance > agent.stoppingDistance || playerFound)
         {
             yield break;
         }
@@ -73,6 +94,19 @@ public class EnemyBehavior : MonoBehaviour
     private void Move(Vector3 destination)
     {
         agent.SetDestination(destination);
+    }
+
+    private void Shoot()
+    {
+        if (weapon.Ammo == 0 || weapon.IsLoading)
+        {
+            isShooting = false;
+            return;
+        }
+
+        isShooting = true;
+        weapon.FireWeapon();
+        return;
     }
 
 }
