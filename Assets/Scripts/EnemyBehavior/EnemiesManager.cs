@@ -39,7 +39,7 @@ public class EnemiesManager : MonoBehaviour
         enemies.Remove(deathEnemy);
         Destroy(deathEnemy.gameObject );
 
-        EnemyEliminated.Invoke(enemiesAlive);
+        EnemyEliminated.Invoke(enemies.Count);
     }
 
     private void OnDisable()

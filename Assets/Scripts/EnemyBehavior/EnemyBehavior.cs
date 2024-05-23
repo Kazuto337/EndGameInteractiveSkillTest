@@ -117,6 +117,7 @@ public class EnemyBehavior : Character
         return;
     }
 
+    [ContextMenu("Kill")]
     public override void Die()
     {
         OnCharacterDead.Invoke(this);
