@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponBehavior : MonoBehaviour
 {
@@ -17,10 +18,14 @@ public class WeaponBehavior : MonoBehaviour
     [SerializeField] private List<BulletBehavior> bulletsPool;
     [SerializeField] private Transform bulletSpawnPoint;
 
+    [Header("Events")]
+    [SerializeField] UnityEvent UpdateAmmo;
+
     public int Ammo { get => ammo;}
     public bool IsLoading { get => isLoading;}
     public bool IsShooting { get => isShooting;}
     public int MaxAmmo { get => maxAmmo;}
+    public int AmmoOnStack { get => ammoOnStack;}
 
     private void Start()
     {
@@ -39,7 +44,7 @@ public class WeaponBehavior : MonoBehaviour
         }
 
         isLoading = true;
-        StartCoroutine(ReloadBehavior());
+        StartCoroutine(ReloadBehavior());        
     }
 
     private IEnumerator ReloadBehavior()
@@ -52,6 +57,8 @@ public class WeaponBehavior : MonoBehaviour
         //If ammo is minor than the stack value, then put the leftover in the charger
         ammoOnStack = ammo > stack ? stack : ammo;
         isLoading = false;
+
+        UpdateAmmo.Invoke();
     }
 
     public void FireWeapon()
@@ -90,11 +97,13 @@ public class WeaponBehavior : MonoBehaviour
         }
 
         ammoOnStack --;
+        UpdateAmmo.Invoke();
 
         if (ammoOnStack == 0)
         {
             ReloadWeapon();
         }
+
 
         yield return new WaitForSeconds(fireRate);
         isShooting = false;

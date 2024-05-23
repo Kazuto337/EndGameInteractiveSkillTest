@@ -6,8 +6,13 @@ public class ObstacleDetector : MonoBehaviour
 {
     [SerializeField] HouseBehavior roofDetected;
     [SerializeField] private Camera _camera;
-    [SerializeField] private Transform _player;
+    private Transform _player;
     [SerializeField] private float _rayLength = 100f;
+
+    public void SetPlayer(Transform player)
+    {
+        _player = player;
+    }
 
     private void Update()
     {
@@ -47,6 +52,7 @@ public class ObstacleDetector : MonoBehaviour
                 default:
                     break;
             }
+            //Debug.Log("Hit object: " + hit.collider.name);
         }
         else
         {
