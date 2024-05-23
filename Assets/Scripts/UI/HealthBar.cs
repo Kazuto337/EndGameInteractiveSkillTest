@@ -15,7 +15,10 @@ public class HealthBar : MonoBehaviour
 
     private void Update()
     {
-        transform.position = followAt.position + offset;
+        if (followAt != null)
+        {
+            transform.position = followAt.position + offset; 
+        }
     }
 
     public void SetValues(float maxHP , float currentHP)

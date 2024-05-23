@@ -16,6 +16,7 @@ public class EnemyBehavior : Character
     [SerializeField] int detectionRadius;
     [SerializeField] bool playerFound;
     [SerializeField] LayerMask sphereMask;
+    [SerializeField] LayerMask layer2Ignore;
     EnemyPathCreation pathCreation;
     NavMeshAgent agent;
 
@@ -63,9 +64,11 @@ public class EnemyBehavior : Character
         {
             if (item.CompareTag("Player"))
             {
-                Vector3 directionToPlayer = (item.transform.position - transform.position);
+                Vector3 directionToPlayer = (item.transform.position - new Vector3(transform.position.x , 1 , transform.position.z));
+                directionToPlayer.y = 1;
 
-                player = RaycastGenerator.Instance.GenerateRaycast(transform.position, directionToPlayer , Mathf.Infinity, "Player");
+                Vector3 origin = transform.position;
+                player = RaycastGenerator.Instance.GenerateRaycast(origin, directionToPlayer , Mathf.Infinity, "Player" , layer2Ignore);
                 break;
             }
         }

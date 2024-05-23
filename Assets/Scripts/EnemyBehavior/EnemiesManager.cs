@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemiesManager : MonoBehaviour
 {
-    List<EnemyBehavior> enemies;
+    List<EnemyBehavior> enemies = new List<EnemyBehavior>();
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject healthBarPrefab;
     [SerializeField] Canvas enemiesStatsCanvas;

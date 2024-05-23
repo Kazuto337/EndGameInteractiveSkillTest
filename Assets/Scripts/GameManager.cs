@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] UI_Manager ui_manager;
     [SerializeField] GameObject player;
-    [SerializeField] List<GameObject> enemies;
+    [SerializeField] EnemiesManager enemies;
 
     [SerializeField] Vector3 mapSize;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
         virtualCamera.Follow = player.transform;
 
         obstacleDetector.SetPlayer(player.transform);
+
+        SpawnEnemies();
     }
 
     private void SpawnPlayer()
@@ -49,5 +51,24 @@ public class GameManager : MonoBehaviour
 
         player.GetComponent<PlayerBehaviour>().OnMedKitUsed.AddListener(ui_manager.SlotMedkit.RemoveElement);
         player.GetComponent<PlayerBehaviour>().OnKeyUsed.AddListener(ui_manager.SlotKeys.RemoveElement);
+    }
+
+    private void SpawnEnemies()
+    {
+        int randomEnemies = Random.Range(4, 6);
+
+        float xValue = Random.Range(-1 * mapSize.x, mapSize.x);
+        float zValue = Random.Range(-1 * mapSize.z, mapSize.z);
+
+        Vector3 enemyPosition = new Vector3(xValue, mapSize.y, zValue);
+
+        for (int i = 0; i < randomEnemies; i++)
+        {
+            xValue = Random.Range(-1 * mapSize.x, mapSize.x);
+            zValue = Random.Range(-1 * mapSize.z, mapSize.z);
+
+            enemyPosition = new Vector3(xValue, mapSize.y, zValue);
+            enemies.GenerateEnemy(enemyPosition);
+        }
     }
 }
