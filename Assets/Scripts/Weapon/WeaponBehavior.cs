@@ -29,6 +29,7 @@ public class WeaponBehavior : MonoBehaviour
 
     private void Start()
     {
+        bulletsPool = BulletPoolManager.instance.BulletPool;
         ResetWeapon();
     }
     private void Update()

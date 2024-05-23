@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class BulletBehavior : MonoBehaviour
 {
+    [SerializeField] ParticleSystem _particleSystem;
+    [SerializeField] GameObject bulletMesh;
     [SerializeField] float bulletDamage;
     CharacterController characterController;
     [SerializeField] float speed;
@@ -45,10 +47,15 @@ public class BulletBehavior : MonoBehaviour
 
     private IEnumerator TurnOff()
     {
-        yield return new WaitForSeconds(1.5f);
+        bulletMesh.SetActive(false);
+        _particleSystem.gameObject.SetActive(true );
+        _particleSystem.Play();
+        yield return new WaitForSeconds(_particleSystem.main.duration);
         gameObject.SetActive(false);
+        _particleSystem.gameObject.SetActive(false);
         gameObject.GetComponent<Collider>().enabled = true;
         canMove = true;
+        bulletMesh.SetActive(true);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
