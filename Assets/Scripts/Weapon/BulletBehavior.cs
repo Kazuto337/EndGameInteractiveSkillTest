@@ -74,7 +74,7 @@ public class BulletBehavior : MonoBehaviour
         }
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Hit " + other.name);
+            Debug.Log("Hit " + other.name + " current HP = " + other.GetComponent<Character>().HealthPoints);
             Explode();
             other.GetComponent<Character>().ReceiveDamage(bulletDamage);
         }

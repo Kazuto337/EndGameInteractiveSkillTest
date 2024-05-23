@@ -1294,7 +1294,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1731562528}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -5152,6 +5152,32 @@ RectTransform:
   m_AnchoredPosition: {x: 18.145, y: 0}
   m_SizeDelta: {x: 463.7094, y: 200}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &502208551 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 381595244535353364, guid: 2668c4ddafd16204ea009f3f269de2e0, type: 3}
+  m_PrefabInstance: {fileID: 556141049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &502208555
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502208551}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0025281035, y: 0.0047769337, z: 0.004776936}
+  m_Center: {x: -0.000037539634, y: -0.00000007229335, z: -8.1490714e-10}
 --- !u!1001 &503661695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5833,6 +5859,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5107303288248027267, guid: 2668c4ddafd16204ea009f3f269de2e0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 556141052}
+    - targetCorrespondingSourceObject: {fileID: 381595244535353364, guid: 2668c4ddafd16204ea009f3f269de2e0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 502208555}
   m_SourcePrefab: {fileID: 100100000, guid: 2668c4ddafd16204ea009f3f269de2e0, type: 3}
 --- !u!4 &556141050 stripped
 Transform:

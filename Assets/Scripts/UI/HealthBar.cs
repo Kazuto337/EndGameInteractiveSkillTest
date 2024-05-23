@@ -10,15 +10,23 @@ public class HealthBar : MonoBehaviour
     private float maxHP;
     private float currentHP;
 
-    [SerializeField] private Transform followAt;
+    [SerializeField] private Transform target;
+    private Character targetCharacter;
     [SerializeField] Vector3 offset;
+
+    private void Start()
+    {
+        healthBarSlider.minValue = 0;
+    }
 
     private void Update()
     {
-        if (followAt != null)
+        if (target != null)
         {
-            transform.position = followAt.position + offset; 
+            transform.position = target.position + offset; 
         }
+
+        healthBarSlider.value = targetCharacter.HealthPoints;
     }
 
     public void SetValues(float maxHP , float currentHP)
@@ -26,12 +34,7 @@ public class HealthBar : MonoBehaviour
         this.maxHP = maxHP;
         this.currentHP = currentHP;
 
-        healthBarSlider.value = currentHP;
-    }
-
-    public void UpdateCurrentHP(float newHP)
-    {
-        currentHP = newHP;
+        healthBarSlider.maxValue = maxHP;
         healthBarSlider.value = currentHP;
     }
 
@@ -42,6 +45,7 @@ public class HealthBar : MonoBehaviour
     }
     public void FollowTransform(Transform _transform)
     {
-        followAt = _transform;
+        target = _transform;
+        targetCharacter = _transform.GetComponent<Character>();
     }
 }

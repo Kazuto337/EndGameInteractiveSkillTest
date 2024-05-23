@@ -2694,7 +2694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPoints: 0
   maxHealthPoints: 150
-  playerSpeed: 2
+  playerSpeed: 3
   gravityValue: -9.81
   weapon: {fileID: 7560280725091297029}
   medKits:

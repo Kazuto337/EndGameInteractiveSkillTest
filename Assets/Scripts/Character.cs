@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     public float HealthPoints { get => healthPoints;}
     public float MaxHealthPoints { get => maxHealthPoints;}
 
-    private void Start()
+    private void OnEnable()
     {
         healthPoints = MaxHealthPoints;
     }

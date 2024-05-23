@@ -9815,7 +9815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 7084971479637280862}
   bulletMesh: {fileID: 2342707586108326210}
-  bulletDamage: 15
+  bulletDamage: 5
   speed: 0.77
 --- !u!1 &6876366888122089628
 GameObject:
