@@ -8,7 +8,7 @@ public class BulletPoolManager : MonoBehaviour
 
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] List<BulletBehavior> bulletPool;
-    [SerializeField] Vector3 bulletsSpawn;
+    [SerializeField] Transform bulletsSpawn;
 
     public List<BulletBehavior> BulletPool { get => bulletPool;}
 
@@ -22,7 +22,7 @@ public class BulletPoolManager : MonoBehaviour
 
         for (int i = 0; i < 500; i++)
         {
-            GameObject newBullet = Instantiate(bulletPrefab , bulletsSpawn , bulletPrefab.transform.rotation);
+            GameObject newBullet = Instantiate(bulletPrefab , bulletsSpawn);
             bulletPool.Add(newBullet.GetComponent<BulletBehavior>());
         }
     }

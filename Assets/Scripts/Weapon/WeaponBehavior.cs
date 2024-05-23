@@ -26,6 +26,7 @@ public class WeaponBehavior : MonoBehaviour
     public bool IsShooting { get => isShooting;}
     public int MaxAmmo { get => maxAmmo;}
     public int AmmoOnStack { get => ammoOnStack;}
+    public Transform BulletSpawnPoint { get => bulletSpawnPoint;}
 
     private void Start()
     {

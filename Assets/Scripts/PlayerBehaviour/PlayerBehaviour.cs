@@ -16,11 +16,12 @@ public class PlayerBehaviour : Character
     private bool isGrounded;
     [SerializeField] private float playerSpeed = 2.0f;
     [SerializeField] private float gravityValue = -9.81f;
+    public Vector3 moveValue;
 
     [Header("Animation Properties")]
     private bool isMoving;
     private bool isShooting;
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
     [Header("Inventory Attributes")]
     [SerializeField] WeaponBehavior weapon;
@@ -39,7 +40,6 @@ public class PlayerBehaviour : Character
     {
         playerInput = new PlayerActions();
         controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -68,8 +68,7 @@ public class PlayerBehaviour : Character
         }
 
         Vector2 movementVector = playerInput.PlayerMain.Move.ReadValue<Vector2>();
-        Vector3 moveValue = new Vector3(movementVector.x, 0, movementVector.y);
-
+        moveValue = new Vector3(movementVector.x, 0, movementVector.y);
         isMoving = moveValue != Vector3.zero;
 
         controller.Move(moveValue * Time.deltaTime * playerSpeed);
@@ -81,6 +80,7 @@ public class PlayerBehaviour : Character
 
         verticalVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(verticalVelocity * Time.deltaTime);
+
     }
 
     public void UpdateAmmo()

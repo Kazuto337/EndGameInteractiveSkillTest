@@ -2580,7 +2580,7 @@ GameObject:
   - component: {fileID: 6011137541620474489}
   - component: {fileID: 4724000737214081414}
   - component: {fileID: -3292607980726283766}
-  - component: {fileID: 7835598836818904828}
+  - component: {fileID: 6814297635347056237}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -2639,7 +2639,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.35
   m_Speed: 2
-  m_Acceleration: 0
+  m_Acceleration: 1
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 3
@@ -2696,7 +2696,7 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!65 &7835598836818904828
+--- !u!65 &6814297635347056237
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2715,8 +2715,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.35497048, z: 0.46093464}
-  m_Center: {x: 0, y: 0.19350545, z: 0}
+  m_Size: {x: 0.41581452, y: 0.4823959, z: 0.43956763}
+  m_Center: {x: 0, y: 0.25880206, z: 0}
 --- !u!1 &6178592357199949550
 GameObject:
   m_ObjectHideFlags: 0
