@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] EnemiesManager enemies;
 
+    [SerializeField] GameObject medKitPrefab, keyPrefab, ammoPrefab;
+
     [SerializeField] Vector3 mapSize;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] ObstacleDetector obstacleDetector;
@@ -69,6 +71,43 @@ public class GameManager : MonoBehaviour
 
             enemyPosition = new Vector3(xValue, mapSize.y, zValue);
             enemies.GenerateEnemy(enemyPosition);
+        }
+    }
+
+    private void SpawnCollectables()
+    {
+        int index = Random.Range(4 , 6);
+        
+
+        for (int i = 0; i < index; i++)
+        {
+            float xValue = Random.Range(-1 * mapSize.x, mapSize.x);
+            float zValue = Random.Range(-1 * mapSize.z, mapSize.z);
+
+            Vector3 collectablePos = new Vector3(xValue, mapSize.y, zValue);
+            Instantiate(ammoPrefab, collectablePos, ammoPrefab.transform.rotation);
+        }
+        
+        index = Random.Range(4 , 8);        
+
+        for (int i = 0; i < index; i++)
+        {
+            float xValue = Random.Range(-1 * mapSize.x, mapSize.x);
+            float zValue = Random.Range(-1 * mapSize.z, mapSize.z);
+
+            Vector3 collectablePos = new Vector3(xValue, mapSize.y, zValue);
+            Instantiate(medKitPrefab, collectablePos, ammoPrefab.transform.rotation);
+        }
+        
+        index = Random.Range(2 , 4);        
+
+        for (int i = 0; i < index; i++)
+        {
+            float xValue = Random.Range(-1 * mapSize.x, mapSize.x);
+            float zValue = Random.Range(-1 * mapSize.z, mapSize.z);
+
+            Vector3 collectablePos = new Vector3(xValue, mapSize.y, zValue);
+            Instantiate(keyPrefab, collectablePos, ammoPrefab.transform.rotation);
         }
     }
 }

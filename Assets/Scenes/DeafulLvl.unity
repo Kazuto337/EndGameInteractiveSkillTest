@@ -20042,6 +20042,9 @@ MonoBehaviour:
   ui_manager: {fileID: 1483857633}
   player: {fileID: 7274442414116675506, guid: 35aaf278975fdb44a85ceb6f7ae04cd0, type: 3}
   enemies: {fileID: 528500494}
+  medKitPrefab: {fileID: 2326296191947452207, guid: d1cd15c9c2b4fa64b9eb5fd342a767e0, type: 3}
+  keyPrefab: {fileID: 2737835651599232974, guid: 62e793f9fe50e1740ab66da5766b6919, type: 3}
+  ammoPrefab: {fileID: 952772534989354474, guid: 6c41a7e3acc6b8e4e8375be282ece4b5, type: 3}
   mapSize: {x: 30, y: 0, z: 35}
   virtualCamera: {fileID: 216481988}
   obstacleDetector: {fileID: 1591017019}
