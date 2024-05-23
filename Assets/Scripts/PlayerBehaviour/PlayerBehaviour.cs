@@ -9,7 +9,6 @@ public class PlayerBehaviour : Character
 {
     [SerializeField] HealthBar healthBar;
     private PlayerActions playerInput;
-    private bool isHealing;
 
     [Header("Movement Attributes")]
     private CharacterController controller;
@@ -181,7 +180,7 @@ public class PlayerBehaviour : Character
         bool conditionA = nullSpaces == medKits.Length;
         bool conditionB = HealthPoints == MaxHealthPoints;
 
-        if (conditionA || conditionB || isHealing)
+        if (conditionA || conditionB)
         {
             return;
         }
@@ -191,7 +190,6 @@ public class PlayerBehaviour : Character
             return;
         }
 
-        isHealing = true;
         StartCoroutine(HealingBehavior());
         OnMedKitUsed.Invoke();
     }
@@ -215,10 +213,7 @@ public class PlayerBehaviour : Character
         }
 
         healthPoints += medKitValue;
-
-        yield return new WaitForSeconds(1f);
-
-        isHealing = false;
+        yield return null;
     }
 
     private void SetAnimationStates()
@@ -309,8 +304,8 @@ public class PlayerBehaviour : Character
     }
     public override void Die()
     {
-        base.Die();
         OnCharacterDead.Invoke(this);
+        base.Die();
     }
 
     private void OnDestroy()

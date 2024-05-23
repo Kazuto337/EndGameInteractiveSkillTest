@@ -119,8 +119,8 @@ public class EnemyBehavior : Character
 
     public override void Die()
     {
-        base.Die();
         OnCharacterDead.Invoke(this);
+        base.Die();
     }
 
     private void OnDisable()
