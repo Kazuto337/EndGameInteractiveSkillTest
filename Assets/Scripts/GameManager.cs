@@ -37,12 +37,12 @@ public class GameManager : MonoBehaviour
         SpawnEnemies();
         SpawnCollectables();
 
-        ui_manager.UpdateEnemies(enemiesLeft);
     }
 
     private void Update()
     {
         enemiesLeft = enemies.EnemiesAlive;
+        ui_manager.UpdateEnemies(enemiesLeft);
     }
 
     private void SpawnPlayer()
