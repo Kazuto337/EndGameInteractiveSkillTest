@@ -10,6 +10,14 @@ public class HealthBar : MonoBehaviour
     private float maxHP;
     private float currentHP;
 
+    [SerializeField] private Transform followAt;
+    [SerializeField] Vector3 offset;
+
+    private void Update()
+    {
+        transform.position = followAt.position + offset;
+    }
+
     public void SetValues(float maxHP , float currentHP)
     {
         this.maxHP = maxHP;
@@ -21,7 +29,7 @@ public class HealthBar : MonoBehaviour
     public void UpdateCurrentHP(float newHP)
     {
         currentHP = newHP;
-        healthBarSlider.value = newHP;
+        healthBarSlider.value = currentHP;
     }
 
     private void OnEnable()
@@ -29,14 +37,8 @@ public class HealthBar : MonoBehaviour
         healthBarSlider = GetComponent<Slider>();
         healthBarSlider.maxValue = maxHP;
     }
-
-    private void Update()
+    public void FollowTransform(Transform _transform)
     {
-        FollowCharacter();
-    }
-
-    private void FollowCharacter()
-    {
-
+        followAt = _transform;
     }
 }

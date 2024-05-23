@@ -37,8 +37,6 @@ public class PlayerBehaviour : Character
 
     private void Awake()
     {
-        healthPoints = maxHealthPoints;
-
         playerInput = new PlayerActions();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -166,7 +164,7 @@ public class PlayerBehaviour : Character
             }
         }
         bool conditionA = nullSpaces == medKits.Length;
-        bool conditionB = healthPoints == maxHealthPoints;
+        bool conditionB = HealthPoints == MaxHealthPoints;
 
         if (conditionA || conditionB || isHealing)
         {
@@ -195,9 +193,9 @@ public class PlayerBehaviour : Character
         }
 
         float medKitValue = 30f;
-        if (medKitValue + healthPoints > maxHealthPoints)
+        if (medKitValue + HealthPoints > MaxHealthPoints)
         {
-            healthPoints = maxHealthPoints;
+            healthPoints = MaxHealthPoints;
             yield break;
         }
 

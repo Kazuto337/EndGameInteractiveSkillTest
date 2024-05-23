@@ -8,9 +8,16 @@ public class Character : MonoBehaviour
     [SerializeField] protected float healthPoints;
     [SerializeField] protected float maxHealthPoints;
 
+    public float HealthPoints { get => healthPoints;}
+    public float MaxHealthPoints { get => maxHealthPoints;}
+
+    private void Start()
+    {
+        healthPoints = MaxHealthPoints;
+    }
     public void ReceiveDamage(float damageValue)
     {
         healthPoints -= damageValue;
-        Debug.LogWarning(gameObject.name + "Received Damage. Current HP = " + healthPoints);
+        Debug.LogWarning(gameObject.name + "Received Damage. Current HP = " + HealthPoints);
     }
 }
