@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static UnityEngine.UI.Image;
 
@@ -22,6 +23,9 @@ public class EnemyBehavior : Character
 
     [Header("Inventory")]
     [SerializeField] WeaponBehavior weapon;
+
+    [Header("Events")]
+    public UnityEvent<EnemyBehavior> OnCharacterDead;
 
     private void Start()
     {
@@ -111,5 +115,16 @@ public class EnemyBehavior : Character
         isShooting = true;
         weapon.FireWeapon();
         return;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        OnCharacterDead.Invoke(this);
+    }
+
+    private void OnDisable()
+    {
+        OnCharacterDead.RemoveAllListeners();
     }
 }

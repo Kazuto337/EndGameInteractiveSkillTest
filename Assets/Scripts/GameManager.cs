@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField] UI_Manager ui_manager;
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject player , healthBar;
     [SerializeField] EnemiesManager enemies;
 
     [SerializeField] GameObject medKitPrefab, keyPrefab, ammoPrefab;
@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     [SerializeField] ObstacleDetector obstacleDetector;
 
+    int enemiesLeft;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -24,18 +26,23 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         else instance = this;
+
+        enemies.EnemyEliminated.AddListener(Win);
     }
 
     private void Start()
     {
-        SpawnPlayer();
-
-        virtualCamera.LookAt = player.transform;
-        virtualCamera.Follow = player.transform;
-
-        obstacleDetector.SetPlayer(player.transform);
+        SpawnPlayer();       
 
         SpawnEnemies();
+        SpawnCollectables();
+
+        ui_manager.UpdateEnemies(enemiesLeft);
+    }
+
+    private void Update()
+    {
+        enemiesLeft = enemies.EnemiesAlive;
     }
 
     private void SpawnPlayer()
@@ -45,14 +52,27 @@ public class GameManager : MonoBehaviour
 
         Vector3 playerPosition = new Vector3(xValue, mapSize.y, zValue);
 
-        player = Instantiate(player, playerPosition, player.transform.rotation);
+        player = Instantiate(player, playerPosition, player.transform.rotation);        
 
-        player.GetComponent<PlayerBehaviour>().OnAmmoChanged.AddListener(ui_manager.AmmoUI.ModifyAmmoText);
-        player.GetComponent<PlayerBehaviour>().OnKeyFound.AddListener(ui_manager.SlotKeys.AddElement);
-        player.GetComponent<PlayerBehaviour>().OnMedKitFound.AddListener(ui_manager.SlotMedkit.AddElement);
+        virtualCamera.LookAt = player.transform;
+        virtualCamera.Follow = player.transform;
 
-        player.GetComponent<PlayerBehaviour>().OnMedKitUsed.AddListener(ui_manager.SlotMedkit.RemoveElement);
-        player.GetComponent<PlayerBehaviour>().OnKeyUsed.AddListener(ui_manager.SlotKeys.RemoveElement);
+        PlayerBehaviour playerComponent = player.GetComponent<PlayerBehaviour>();
+        obstacleDetector.SetPlayer(player.transform);
+
+        playerComponent.OnAmmoChanged.AddListener(ui_manager.AmmoUI.ModifyAmmoText);
+        playerComponent.OnKeyFound.AddListener(ui_manager.SlotKeys.AddElement);
+        playerComponent.OnMedKitFound.AddListener(ui_manager.SlotMedkit.AddElement);
+
+        playerComponent.OnMedKitUsed.AddListener(ui_manager.SlotMedkit.RemoveElement);
+        playerComponent.OnKeyUsed.AddListener(ui_manager.SlotKeys.RemoveElement);
+
+        playerComponent.OnCharacterDead.AddListener(Loose);
+
+        GameObject playerHealthBar = Instantiate(healthBar, ui_manager.worldSpaceCanvas.transform);
+        playerComponent.HealthBar = playerHealthBar.GetComponent<HealthBar>();
+        playerHealthBar.GetComponent<HealthBar>().FollowTransform(player.transform);
+
     }
 
     private void SpawnEnemies()
@@ -109,5 +129,19 @@ public class GameManager : MonoBehaviour
             Vector3 collectablePos = new Vector3(xValue, mapSize.y, zValue);
             Instantiate(keyPrefab, collectablePos, ammoPrefab.transform.rotation);
         }
+    }
+    public void Win(int enemiesLeft)
+    {
+        if (enemiesLeft != 0)
+        {
+            ui_manager.UpdateEnemies(enemiesLeft);
+            return;
+        }
+
+        ScenesManager.LoadScene(2);
+    }
+    public void Loose(PlayerBehaviour player)
+    {
+        ScenesManager.LoadScene(3);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class UI_Manager : MonoBehaviour
@@ -9,6 +10,9 @@ public class UI_Manager : MonoBehaviour
     AmmoUI ammoUI;
     InventorySlot slotMedkit, slotAmmo, slotKeys;
 
+    [SerializeField] TMP_Text enemiesAliveTxt;
+
+    public Canvas worldSpaceCanvas;
     public AmmoUI AmmoUI { get => ammoUI; }
     public InventorySlot SlotMedkit { get => slotMedkit; }
     public InventorySlot SlotAmmo { get => slotAmmo; }
@@ -42,5 +46,10 @@ public class UI_Manager : MonoBehaviour
         slotKeys = canvasPC.slotKeys;
         slotMedkit = canvasPC.slotMedkit;
 #endif
+    }
+
+    public void UpdateEnemies(int enemiesLeft)
+    {
+        enemiesAliveTxt.text = "Enemies Left: " + enemiesLeft;
     }
 }

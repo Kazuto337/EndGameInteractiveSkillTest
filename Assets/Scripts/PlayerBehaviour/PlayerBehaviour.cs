@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : Character
 {
+    [SerializeField] HealthBar healthBar;
     private PlayerActions playerInput;
     private bool isHealing;
 
@@ -35,6 +36,9 @@ public class PlayerBehaviour : Character
     public UnityEvent OnMedKitUsed;
     public UnityEvent OnKeyFound;
     public UnityEvent OnKeyUsed;
+    public UnityEvent<PlayerBehaviour> OnCharacterDead;
+
+    public HealthBar HealthBar { get => healthBar; set => healthBar = value; }
 
     private void Awake()
     {
@@ -58,6 +62,17 @@ public class PlayerBehaviour : Character
         SetAnimationStates();
         ReloadWeapon();
         UseMedKit();
+        SetHealthBar();
+    }
+
+    public void SetHealthBar()
+    {
+        if (healthBar == null)
+        {
+            return;
+        }
+
+        healthBar.SetValues(maxHealthPoints, healthPoints);
     }
     private void Move()
     {
@@ -223,6 +238,13 @@ public class PlayerBehaviour : Character
     private void OnDisable()
     {
         playerInput.Disable();
+
+        OnHPChanged.RemoveAllListeners();
+        OnAmmoChanged.RemoveAllListeners();
+        OnMedKitFound.RemoveAllListeners();
+        OnMedKitUsed.RemoveAllListeners();
+        OnKeyFound.RemoveAllListeners();
+        OnKeyUsed.RemoveAllListeners();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -284,5 +306,15 @@ public class PlayerBehaviour : Character
             Debug.LogWarning("Door Found.");
             OpenDoor(other.GetComponent<DoorBehavior>());
         }
+    }
+    public override void Die()
+    {
+        base.Die();
+        OnCharacterDead.Invoke(this);
+    }
+
+    private void OnDestroy()
+    {
+        OnCharacterDead.RemoveAllListeners();
     }
 }

@@ -2664,7 +2664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPoints: 0
   maxHealthPoints: 80
-  detectionRadius: 5
+  detectionRadius: 4
   playerFound: 0
   sphereMask:
     serializedVersion: 2
@@ -2673,6 +2673,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   weapon: {fileID: 3654546907998772315}
+  OnCharacterDead:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &-3292607980726283766
 CapsuleCollider:
   m_ObjectHideFlags: 0
